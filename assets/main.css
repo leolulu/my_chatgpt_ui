@@ -1,0 +1,76 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.main-area {
+    display: flex;
+    height: 95vh;
+    width: 99vw;
+    background-color: antiquewhite;
+}
+
+.left-area {
+    width: 66.66%;
+    height: 100%;
+    border-right: 1px solid black;
+    overflow-y: scroll;
+}
+
+.left-area::-webkit-scrollbar {
+    display: none;
+}
+
+.right-area {
+    width: 33.33%;
+    height: 100%;
+}
+
+.input-box {
+    width: 100%;
+    height: 90%;
+    margin-top: 5px;
+}
+
+.right-upper {
+    height: 70%;
+}
+
+.right-lower {
+    height: 30%;
+}
+
+.whole-line-input {
+    width: 100%;
+}
+
+.chat-record {
+    border: 1px solid grey;
+    padding: 5px;
+    background-color: white;
+}
+
+.chat-record:last-child {
+    margin-bottom: 70vh;
+
+}
+
+.hidden {
+    display: none;
+}
+
+.green {
+    background-color: green;
+}
+
+.red {
+    background-color: red;
+}
+
+.user-bubble {
+    margin: 5px 5px 5px 40px;
+}
+
+.assistant-bubble {
+    margin: 5px 40px 5px 5px;
+}
