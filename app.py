@@ -1,6 +1,7 @@
 from dash import Dash, html, dcc, Input, Output, State, callback
 
 from llms.openai_engine import OpenAIEngine
+from utils.element_util import gen_bubble_content
 
 app = Dash(__name__)
 chatGPT = OpenAIEngine()
@@ -85,9 +86,9 @@ def ask_for_chat(n_clicks, question, children):
     if question:
         print(f"开始问问题...")
         (answer, usage) = chatGPT.ask(question)
-        children.append(html.Div(question, className="chat-record user-bubble"))
-        children.append(html.Div(answer, className="chat-record assistant-bubble"))
-        print(f"答案回来了，开销：{usage}")
+        children.append(html.Div(gen_bubble_content(question), className='chat-record user-bubble'))
+        children.append(html.Div(gen_bubble_content(answer), className='chat-record assistant-bubble'))
+        print(f'答案回来了，开销：{usage}')
     return children
 
 
