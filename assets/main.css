@@ -74,3 +74,11 @@ body {
 .assistant-bubble {
     margin: 5px 40px 5px 5px;
 }
+
+#submit-button {
+    width: 90%;
+}
+
+#reset-button {
+    width: 10%;
+}
