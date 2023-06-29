@@ -68,9 +68,9 @@ body {
 }
 
 .user-bubble {
-    margin: 5px 5px 5px 40px;
+    margin: 5px 5px 5px 50px;
 }
 
 .assistant-bubble {
-    margin: 5px 40px 5px 5px;
+    margin: 5px 50px 30px 5px;
 }
