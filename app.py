@@ -114,7 +114,7 @@ def ask_for_chat(n_clicks, question, children):
 )
 def init_engine(n_clicks, api_key, proxy, class_name, if_enable_proxy):
     if api_key:
-        if "enable" not in if_enable_proxy:
+        if if_enable_proxy is None:
             proxy = ""
         print("初始化引擎中...")
         chatGPT.init_engine(api_key, proxy)
