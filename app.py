@@ -72,7 +72,7 @@ app.layout = html.Div(
     Input("reset-button", "n_clicks"),
     prevent_initial_call=True,
 )
-def clear_history():
+def clear_history(n_clicks):
     return ([], "")
 
 
