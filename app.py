@@ -1,4 +1,6 @@
-from dash import Dash, html, dcc, Input, Output, State, callback
+import os
+
+from dash import Dash, Input, Output, State, callback, dcc, html
 
 from llms.openai_engine import OpenAIEngine
 from utils.element_util import gen_bubble_content
@@ -110,4 +112,4 @@ def init_engine(n_clicks, api_key, proxy, class_name):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=True)
+    app.run_server(debug=False, port=os.getenv("PORT", default=8050), host='0.0.0.0')
