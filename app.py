@@ -85,6 +85,7 @@ def clear_history(n_clicks):
     Input("submit-button", "n_clicks"),
     State("input-box", "value"),
     State("chat_display", "children"),
+    prevent_initial_call=True,
 )
 def ask_for_chat(n_clicks, question, children):
     if not children:
@@ -111,6 +112,7 @@ def ask_for_chat(n_clicks, question, children):
     State("proxy_address", "value"),
     State("init_engine", "className"),
     State("enable_proxy", "value"),
+    prevent_initial_call=True,
 )
 def init_engine(n_clicks, api_key, proxy, class_name, if_enable_proxy):
     if api_key:
