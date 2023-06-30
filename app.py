@@ -34,15 +34,19 @@ app.layout = html.Div(
                     children=[
                         dcc.Input(
                             id="api_key",
-                            type="text",
-                            placeholder="api key",
+                            type="password",
+                            value=os.getenv("api_key", default=""),
+                            placeholder="API KEY here",
                             className="whole-line-input",
                         ),
                         dcc.Input(
                             id="proxy_address",
                             type="text",
                             value="http://127.0.0.1:10809",
-                            className="whole-line-input",
+                        ),
+                        dcc.Checklist(
+                            id="enable_proxy",
+                            options=["enable"],
                         ),
                         html.Button(
                             "初始化引擎", id="init_engine", className="whole-line-input red"
@@ -88,9 +92,15 @@ def ask_for_chat(n_clicks, question, children):
     if question:
         print(f"开始问问题...")
         (answer, usage) = chatGPT.ask(question)
-        children.append(html.Div(gen_bubble_content(question), className='chat-record user-bubble'))
-        children.append(html.Div(gen_bubble_content(answer), className='chat-record assistant-bubble'))
-        print(f'答案回来了，开销：{usage}')
+        children.append(
+            html.Div(gen_bubble_content(question), className="chat-record user-bubble")
+        )
+        children.append(
+            html.Div(
+                gen_bubble_content(answer), className="chat-record assistant-bubble"
+            )
+        )
+        print(f"答案回来了，开销：{usage}")
     return children
 
 
@@ -100,9 +110,12 @@ def ask_for_chat(n_clicks, question, children):
     State("api_key", "value"),
     State("proxy_address", "value"),
     State("init_engine", "className"),
+    State("enable_proxy", "value"),
 )
-def init_engine(n_clicks, api_key, proxy, class_name):
+def init_engine(n_clicks, api_key, proxy, class_name, if_enable_proxy):
     if api_key:
+        if "enable" not in if_enable_proxy:
+            proxy = ""
         print("初始化引擎中...")
         chatGPT.init_engine(api_key, proxy)
         print("引擎初始化完毕...")
@@ -112,4 +125,4 @@ def init_engine(n_clicks, api_key, proxy, class_name):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=False, port=os.getenv("PORT", default=8050), host='0.0.0.0')
+    app.run_server(debug=False, port=os.getenv("PORT", default=8050), host="0.0.0.0")

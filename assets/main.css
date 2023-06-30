@@ -83,3 +83,11 @@ body {
 #reset-button {
     width: 10%;
 }
+
+#proxy_address {
+    width: 80%;
+}
+
+#enable_proxy {
+    display: inline-block;
+}
