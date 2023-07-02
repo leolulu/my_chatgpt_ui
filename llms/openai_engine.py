@@ -35,6 +35,7 @@ class OpenAIEngine:
         num_tokens = len(encoding.encode(question))
         if num_tokens > 1024 * 4:
             model = "gpt-3.5-turbo-16k-0613"
+        print(f"Token num: {num_tokens}, use model: {model}")
         self.add_user_msg(question)
         response = self.openai.ChatCompletion.create(
             model=model, messages=self.messages
