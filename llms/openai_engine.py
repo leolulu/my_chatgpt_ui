@@ -34,9 +34,10 @@ class OpenAIEngine:
 
     def ask(self, question, model="gpt-3.5-turbo-0613"):
         encoding = tiktoken.encoding_for_model(model)
-        num_tokens = len(encoding.encode(question))
+        num_tokens = len(encoding.encode(''.join([i['content'] for i in self.messages])+question))
         if num_tokens > 1024 * 4:
             model = "gpt-3.5-turbo-16k-0613"
+        print(f"Token num: {num_tokens}, use model: {model}")
         self.add_user_msg(question)
         response = self.openai.ChatCompletion.create(
             model=model, messages=self.messages
