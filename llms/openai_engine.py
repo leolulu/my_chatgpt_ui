@@ -1,3 +1,4 @@
+from datetime import datetime
 import openai
 import tiktoken
 
@@ -14,6 +15,7 @@ class OpenAIEngine:
 
     def reset_messages(self):
         self.messages = []
+        self.add_system_msg(f"You are ChatGPT, a large language model trained by OpenAI.\nKnowledge cutoff: 2021-09\nCurrent date: [{datetime.now().strftime('%Y-%m')}]")
 
     def add_system_msg(self, content):
         self.messages.append(

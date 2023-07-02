@@ -77,6 +77,7 @@ app.layout = html.Div(
     prevent_initial_call=True,
 )
 def clear_history(n_clicks):
+    chatGPT.reset_messages()
     return ([], "")
 
 
