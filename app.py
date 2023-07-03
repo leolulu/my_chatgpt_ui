@@ -10,10 +10,10 @@ from utils.mongo_util import MongoUtil
 app = Dash(__name__)
 chatGPT = OpenAIEngine()
 mongo_util = MongoUtil(
-    host=os.getenv("MONGOHOST"),
-    port=os.getenv("MONGOPORT"),
-    username=os.getenv("MONGOUSER"),
-    password=os.getenv("MONGOPASSWORD"),
+    host=os.getenv("MONGODB_HOST"),
+    port=int(os.getenv("MONGODB_PORT", 0)),
+    username=os.getenv("MONGODB_USERNAME"),
+    password=os.getenv("MONGODB_PASSWORD"),
 )
 mongo_util.set_collection("prompt")
 
