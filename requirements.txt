@@ -2,3 +2,4 @@ dash
 openai
 tiktoken
 pymongo
+retrying
