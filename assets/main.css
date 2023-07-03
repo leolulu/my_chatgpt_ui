@@ -5,7 +5,7 @@ body {
 
 .main-area {
     display: flex;
-    height: 95vh;
+    height: 99vh;
     width: 99vw;
     background-color: antiquewhite;
 }
@@ -33,11 +33,11 @@ body {
 }
 
 .right-upper {
-    height: 70%;
+    height: 50%;
 }
 
 .right-lower {
-    height: 30%;
+    height: 50%;
 }
 
 .whole-line-input {
@@ -88,6 +88,15 @@ body {
     width: 80%;
 }
 
+#enable_hyphen,
 #enable_proxy {
     display: inline-block;
+}
+
+.prompt_list {
+    overflow-x: hidden;
+}
+
+#add-prompt-button {
+    width: 30%;
 }
