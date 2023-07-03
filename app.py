@@ -122,6 +122,7 @@ def init_engine(n_clicks, api_key, proxy, class_name, if_enable_proxy):
         print("初始化引擎中...")
         chatGPT.init_engine(api_key, proxy)
         print("引擎初始化完毕...")
+        chatGPT.reset_messages()
         return class_name.replace("red", "green")
     else:
         return class_name
