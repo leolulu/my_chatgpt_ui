@@ -194,4 +194,4 @@ def del_prompt(n_clicks, data, active_cell):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=False, port=os.getenv("PORT", default=8050), host="0.0.0.0")
+    app.run_server(debug=True, port=os.getenv("PORT", default=8050), host="0.0.0.0")
