@@ -122,7 +122,7 @@ def ask_for_chat(n_clicks, question, children):
 )
 def init_engine(n_clicks, api_key, proxy, class_name, if_enable_proxy):
     if api_key:
-        if if_enable_proxy is None:
+        if not if_enable_proxy:
             proxy = ""
         print("初始化引擎中...")
         chatGPT.init_engine(api_key, proxy)
@@ -144,7 +144,7 @@ def init_engine(n_clicks, api_key, proxy, class_name, if_enable_proxy):
 )
 def put_prompt(n_clicks, active_cell, prompt_table_data, input_data, if_enable_hyphen):
     if active_cell is not None:
-        if if_enable_hyphen is None:
+        if not if_enable_hyphen:
             connector = "\n"
         else:
             connector = "\n" + "-" * 50 + "\n"
