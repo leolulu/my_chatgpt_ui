@@ -44,24 +44,11 @@ app.layout = html.Div(
                             placeholder="API KEY here",
                             className="whole-line-input",
                         ),
-                        dcc.Input(
-                            id="proxy_address",
-                            type="text",
-                            value="http://127.0.0.1:10809",
-                        ),
+                        dcc.Input(id="proxy_address", type="text", value="http://127.0.0.1:10809"),
                         dcc.Checklist(id="enable_proxy", options=["enable"]),
                         html.Button("初始化引擎", id="init_engine", className="whole-line-input red"),
-                        dcc.Input(
-                            id="parameter-3",
-                            type="text",
-                            placeholder="Parameter 2",
-                            className="whole-line-input",
-                        ),
-                        html.Button(
-                            "Submit Parameters",
-                            id="submit-parameters-button",
-                            className="whole-line-input",
-                        ),
+                        dcc.Input(id="parameter-3", type="text", placeholder="Parameter 2", className="whole-line-input"),
+                        html.Button("Submit Parameters", id="submit-parameters-button", className="whole-line-input"),
                         dash_table.DataTable(
                             id="prompt_table",
                             style_table={"overflowX": "auto"},
@@ -77,6 +64,7 @@ app.layout = html.Div(
                                 },
                             ],
                         ),
+                        dcc.Input(id="add_prompt_input", type="text", placeholder="add prompt", className="whole-line-input"),
                         html.Div(
                             [
                                 html.Button("Put", id="put-prompt-button"),
@@ -167,8 +155,9 @@ def put_prompt(n_clicks, active_cell, prompt_table_data, input_data, if_enable_h
 
 @callback(
     Output("prompt_table", "data"),
+    Output("add_prompt_input", "value"),
     Input("add-prompt-button", "n_clicks"),
-    State("input-box", "value"),
+    State("add_prompt_input", "value"),
     State("prompt_table", "data"),
 )
 def add_prompt(n_clicks, prompt, data):
@@ -176,7 +165,7 @@ def add_prompt(n_clicks, prompt, data):
         new_prompt_dict = Prompt(max([i["id"] for i in (data or [{"id": 0}])]) + 1, prompt).value
         mongo_util.insert_one(new_prompt_dict)
     data = [{Prompt.PROMPT: i[Prompt.PROMPT], Prompt.ID: i[Prompt.ID]} for i in mongo_util.find_many()]
-    return data
+    return (data, "")
 
 
 @callback(
