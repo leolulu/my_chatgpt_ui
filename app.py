@@ -56,7 +56,7 @@ app.layout = html.Div(
                             css=[
                                 {
                                     "selector": "tr",
-                                    "rule": "height:10px;line-height:10px;font-size:15px",
+                                    "rule": "height:10px;line-height:10px;font-size:12px",
                                 },
                                 {
                                     "selector": "tr:first-child",
@@ -113,6 +113,7 @@ def ask_for_chat(n_clicks, question, children):
 
 @callback(
     Output("init_engine", "className"),
+    Output("submit-button", "disabled"),
     Input("init_engine", "n_clicks"),
     State("api_key", "value"),
     State("proxy_address", "value"),
@@ -128,9 +129,9 @@ def init_engine(n_clicks, api_key, proxy, class_name, if_enable_proxy):
         chatGPT.init_engine(api_key, proxy)
         print("引擎初始化完毕...")
         chatGPT.reset_messages()
-        return class_name.replace("red", "green")
+        return (class_name.replace("red", "green"), False)
     else:
-        return class_name
+        return (class_name, True)
 
 
 @callback(
@@ -142,15 +143,19 @@ def init_engine(n_clicks, api_key, proxy, class_name, if_enable_proxy):
     State("enable_hyphen", "value"),
     prevent_initial_call=True,
 )
-def put_prompt(n_clicks, active_cell, prompt_table_data, input_data, if_enable_hyphen):
+def put_prompt(n_clicks, active_cell, prompt_table_data, input_box_content, if_enable_hyphen):
     if active_cell is not None:
+        selected_prompt = prompt_table_data[active_cell["row"]]["prompt"]
         if not if_enable_hyphen:
             connector = "\n"
         else:
             connector = "\n" + "-" * 50 + "\n"
-        return input_data + connector + prompt_table_data[active_cell["row"]]["prompt"]
+        if input_box_content:
+            return input_box_content + connector + selected_prompt
+        else:
+            return selected_prompt
     else:
-        return input_data
+        return input_box_content
 
 
 @callback(
