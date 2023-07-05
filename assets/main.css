@@ -89,6 +89,7 @@ body {
     width: 80%;
 }
 
+#enable_load_content_from_url,
 #enable_hyphen,
 #enable_proxy {
     display: inline-block;
@@ -116,4 +117,8 @@ body {
     border: 1px solid black;
     text-align: center;
     font-weight: bold;
+}
+
+#webpage_url_input {
+    width: 80%;
 }

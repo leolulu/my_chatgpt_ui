@@ -3,3 +3,5 @@ openai
 tiktoken
 pymongo
 retrying
+beautifulsoup4
+requests

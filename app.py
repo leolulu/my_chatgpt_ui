@@ -1,11 +1,13 @@
 import os
+import traceback
 
 from dash import Dash, Input, Output, State, callback, dash_table, dcc, html
 
 from llms.openai_engine import OpenAIEngine
 from models.prompt import Prompt
-from utils.element_util import gen_bubble_content
+from utils.concat_util import concat_webpage_content_and_question
 from utils.mongo_util import MongoUtil
+from utils.url_util import get_webpage_content
 
 app = Dash(__name__)
 chatGPT = OpenAIEngine()
@@ -45,10 +47,10 @@ app.layout = html.Div(
                             className="whole-line-input",
                         ),
                         dcc.Input(id="proxy_address", type="text", value="http://127.0.0.1:10809"),
-                        dcc.Checklist(id="enable_proxy", options=["enable"]),
+                        dcc.Checklist(id="enable_proxy", options=["proxy"]),
                         html.Button("初始化引擎", id="init_engine", className="whole-line-input red"),
-                        dcc.Input(id="parameter-3", type="text", placeholder="Parameter 2", className="whole-line-input"),
-                        html.Button("Submit Parameters", id="submit-parameters-button", className="whole-line-input"),
+                        dcc.Input(id="webpage_url_input", type="text", placeholder="Load content from URL"),
+                        dcc.Checklist(id="enable_load_content_from_url", options=["url"]),
                         dash_table.DataTable(
                             id="prompt_table",
                             style_table={"overflowX": "auto"},
@@ -94,21 +96,32 @@ def clear_history(n_clicks):
 
 @callback(
     Output("chat_display", "children"),
+    Output("input-box", "value", allow_duplicate=True),
+    Output("enable_load_content_from_url", "value"),
     Input("submit-button", "n_clicks"),
     State("input-box", "value"),
     State("chat_display", "children"),
+    State("enable_load_content_from_url", "value"),
+    State("webpage_url_input", "value"),
     prevent_initial_call=True,
 )
-def ask_for_chat(n_clicks, question, children):
+def ask_for_chat(n_clicks, question, children, if_enable_load_from_url, url):
     if not children:
         children = []
     if question:
-        print(f"开始问问题...")
-        (answer, usage) = chatGPT.ask(question)
-        children.append(html.Div(dcc.Markdown(question), className="chat-record user-bubble"))
-        children.append(html.Div(dcc.Markdown(answer), className="chat-record assistant-bubble"))
-        print(f"答案回来了，开销：{usage}")
-    return children
+        try:
+            if if_enable_load_from_url and url:
+                webpage_content = get_webpage_content(url)
+                question = concat_webpage_content_and_question(webpage_content, question)
+            print(f"开始问问题...")
+            (answer, usage) = chatGPT.ask(question)
+            children.append(html.Div(dcc.Markdown(question), className="chat-record user-bubble"))
+            children.append(html.Div(dcc.Markdown(answer), className="chat-record assistant-bubble"))
+            print(f"答案回来了，开销：{usage}")
+            question = f"{question}\n\n\n[系统信息]\n{usage}"
+        except:
+            question = "\n\n\n".join([question, traceback.format_exc()])
+    return (children, question, [])
 
 
 @callback(
