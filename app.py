@@ -9,7 +9,7 @@ from utils.concat_util import concat_webpage_content_and_question
 from utils.mongo_util import MongoUtil
 from utils.url_util import get_webpage_content
 
-app = Dash(__name__)
+app = Dash(__name__, title='my GPT UI')
 chatGPT = OpenAIEngine()
 mongo_util = MongoUtil(
     host=os.getenv("MONGODB_HOST"),
