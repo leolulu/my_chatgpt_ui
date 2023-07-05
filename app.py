@@ -9,7 +9,7 @@ from utils.concat_util import concat_webpage_content_and_question
 from utils.mongo_util import MongoUtil
 from utils.url_util import get_webpage_content
 
-app = Dash(__name__, title='my GPT UI')
+app = Dash(__name__, title="my GPT UI")
 chatGPT = OpenAIEngine()
 mongo_util = MongoUtil(
     host=os.getenv("MONGODB_HOST"),
@@ -122,6 +122,17 @@ def ask_for_chat(n_clicks, question, children, if_enable_load_from_url, url):
         except:
             question = "\n\n\n".join([question, traceback.format_exc()])
     return (children, question, [])
+
+
+@callback(
+    Output("reset-button", "disabled"),
+    Input("input-box", "value"),
+)
+def forbid_reset_when_content_exists(value):
+    if value:
+        return True
+    else:
+        return False
 
 
 @callback(
