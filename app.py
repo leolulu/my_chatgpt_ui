@@ -29,7 +29,7 @@ app.layout = html.Div(
                     className="right-upper",
                     children=[
                         dcc.Textarea(id="input-box", className="input-box"),
-                        html.Button("Submit", id="submit-button"),
+                        html.Button("Submit", id="submit-button", disabled=True),
                         html.Button("Reset", id="reset-button"),
                     ],
                 ),
@@ -105,8 +105,8 @@ def ask_for_chat(n_clicks, question, children):
     if question:
         print(f"开始问问题...")
         (answer, usage) = chatGPT.ask(question)
-        children.append(html.Div(gen_bubble_content(question), className="chat-record user-bubble"))
-        children.append(html.Div(gen_bubble_content(answer), className="chat-record assistant-bubble"))
+        children.append(html.Div(dcc.Markdown(question), className="chat-record user-bubble"))
+        children.append(html.Div(dcc.Markdown(answer), className="chat-record assistant-bubble"))
         print(f"答案回来了，开销：{usage}")
     return children
 

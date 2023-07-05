@@ -48,14 +48,13 @@ body {
 
 .chat-record {
     border: 1px solid grey;
-    padding: 5px;
+    padding: 0px 5px 0px 5px;
     background-color: white;
     line-height: 1.5;
 }
 
 .chat-record:last-child {
     margin-bottom: 70vh;
-
 }
 
 .hidden {
@@ -101,4 +100,20 @@ body {
 
 #add-prompt-button {
     width: 30%;
+}
+
+.chat-record table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.chat-record td {
+    border: 1px solid black;
+    text-align: center;
+}
+
+.chat-record th {
+    border: 1px solid black;
+    text-align: center;
+    font-weight: bold;
 }
