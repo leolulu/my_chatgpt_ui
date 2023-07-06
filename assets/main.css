@@ -71,6 +71,8 @@ body {
 
 .user-bubble {
     margin: 5px 5px 5px 50px;
+    max-height: 600px;
+    overflow-y: auto;
 }
 
 .assistant-bubble {
@@ -99,8 +101,12 @@ body {
     overflow-x: hidden;
 }
 
+#put-prompt-button {
+    width: 25%;
+}
+
 #add-prompt-button {
-    width: 30%;
+    width: 15%;
 }
 
 .chat-record table {
