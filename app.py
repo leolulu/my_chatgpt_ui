@@ -85,13 +85,12 @@ app.layout = html.Div(
 
 @callback(
     Output("chat_display", "children", allow_duplicate=True),
-    Output("input-box", "value"),
     Input("reset-button", "n_clicks"),
     prevent_initial_call=True,
 )
 def clear_history(n_clicks):
     chatGPT.reset_messages()
-    return ([], "")
+    return []
 
 
 @callback(
@@ -122,17 +121,6 @@ def ask_for_chat(n_clicks, question, children, if_enable_load_from_url, url):
         except:
             question = "\n\n\n".join([question, traceback.format_exc()])
     return (children, question, [])
-
-
-@callback(
-    Output("reset-button", "disabled"),
-    Input("input-box", "value"),
-)
-def forbid_reset_when_content_exists(value):
-    if value:
-        return True
-    else:
-        return False
 
 
 @callback(
