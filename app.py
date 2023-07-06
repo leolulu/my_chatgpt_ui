@@ -173,7 +173,7 @@ def put_prompt(n_clicks, active_cell, prompt_table_data, input_box_content, if_e
         if not if_enable_hyphen:
             connector = "\n"
         else:
-            connector = "\n" + "-" * 50 + "\n"
+            connector = "\n\n" + "-" * 50 + "\n"
         if input_box_content:
             return input_box_content + connector + selected_prompt
         else:
