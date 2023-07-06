@@ -1,6 +1,5 @@
 from datetime import datetime
 import openai
-import tiktoken
 
 
 class OpenAIEngine:
@@ -36,12 +35,7 @@ class OpenAIEngine:
             {"role": "assistant", "content": content},
         )
 
-    def ask(self, question, model="gpt-3.5-turbo-0613"):
-        encoding = tiktoken.encoding_for_model(model)
-        num_tokens = len(encoding.encode("".join([i["content"] for i in self.messages]) + question))
-        if num_tokens > 1024 * 4 - 100:
-            model = "gpt-3.5-turbo-16k-0613"
-        print(f"Token num: {num_tokens}, use model: {model}")
+    def ask(self, question, model="gpt-3.5-turbo-16k-0613"):
         self.add_user_msg(question)
         response = self.openai.ChatCompletion.create(model=model, messages=self.messages)
         answer = response["choices"][0]["message"]["content"]  # type: ignore
