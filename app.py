@@ -48,7 +48,7 @@ app.layout = html.Div(
                         ),
                         dcc.Input(id="proxy_address", type="text", value="http://127.0.0.1:10809"),
                         dcc.Checklist(id="enable_proxy", options=["proxy"]),
-                        html.Button("初始化引擎", id="init_engine", className="whole-line-input red"),
+                        html.Button("Init Engine", id="init_engine", className="whole-line-input red"),
                         dcc.Input(id="webpage_url_input", type="text", placeholder="Load content from URL"),
                         dcc.Checklist(id="enable_load_content_from_url", options=["url"]),
                         dash_table.DataTable(
