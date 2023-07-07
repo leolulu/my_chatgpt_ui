@@ -1,7 +1,8 @@
 import os
 import traceback
 
-from dash import Dash, Input, Output, State, callback, dash_table, dcc, html
+import diskcache
+from dash import Dash, DiskcacheManager, Input, Output, State, callback, dash_table, dcc, html
 
 from llms.openai_engine import OpenAIEngine
 from models.prompt import Prompt
@@ -9,7 +10,11 @@ from utils.concat_util import concat_webpage_content_and_question
 from utils.mongo_util import MongoUtil
 from utils.url_util import get_webpage_content
 
-app = Dash(__name__, title="my GPT UI")
+app = Dash(
+    __name__,
+    title="my GPT UI",
+    background_callback_manager=DiskcacheManager(diskcache.Cache("./runtime_data/cache")),
+)
 chatGPT = OpenAIEngine()
 mongo_util = MongoUtil(
     host=os.getenv("MONGODB_HOST"),
@@ -69,9 +74,9 @@ app.layout = html.Div(
                         dcc.Input(id="add_prompt_input", type="text", placeholder="add prompt", className="whole-line-input"),
                         html.Div(
                             [
-                                html.Button("Put", id="put-prompt-button"),
-                                html.Button("Add", id="add-prompt-button"),
-                                html.Button("Del", id="del-prompt-button"),
+                                html.Button("Put to query", id="put-prompt-button"),
+                                html.Button("add", id="add-prompt-button"),
+                                html.Button("del", id="del-prompt-button"),
                                 dcc.Checklist(id="enable_hyphen", options=["hyphen"]),
                             ]
                         ),
@@ -103,6 +108,11 @@ def clear_history(n_clicks):
     State("enable_load_content_from_url", "value"),
     State("webpage_url_input", "value"),
     prevent_initial_call=True,
+    background=True,
+    running=[
+        (Output("submit-button", "disabled"), True, False),
+        (Output("submit-button", "children"), "Querying...", "Submit"),
+    ],
 )
 def ask_for_chat(n_clicks, question, children, if_enable_load_from_url, url):
     if not children:

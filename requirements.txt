@@ -5,3 +5,4 @@ pymongo
 retrying
 beautifulsoup4
 requests
+dash[diskcache]
