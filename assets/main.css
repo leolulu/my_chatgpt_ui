@@ -28,7 +28,7 @@ body {
 
 .input-box {
     width: 100%;
-    height: 90%;
+    height: 85%;
     margin-top: 5px;
     margin-bottom: -5px;
     font-size: 15px;
@@ -81,6 +81,10 @@ body {
 
 #submit-button {
     width: 90%;
+}
+
+#model_name_dropdown {
+    height: 31px;
 }
 
 #reset-button {

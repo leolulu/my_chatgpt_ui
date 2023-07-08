@@ -35,6 +35,12 @@ app.layout = html.Div(
                 html.Div(
                     className="right-upper",
                     children=[
+                        dcc.Dropdown(
+                            id="model_name_dropdown",
+                            options=["gpt-3.5-turbo-16k-0613", "gpt-4-0613", "gpt-4-32k-0613"],
+                            value="gpt-3.5-turbo-16k-0613",
+                            clearable=False,
+                        ),
                         dcc.Textarea(id="input-box", className="input-box"),
                         html.Button("Submit", id="submit-button", disabled=True),
                         html.Button("Reset", id="reset-button"),
@@ -107,6 +113,7 @@ def clear_history(n_clicks):
     State("chat_display", "children"),
     State("enable_load_content_from_url", "value"),
     State("webpage_url_input", "value"),
+    State("model_name_dropdown", "value"),
     prevent_initial_call=True,
     background=True,
     running=[
@@ -114,7 +121,7 @@ def clear_history(n_clicks):
         (Output("submit-button", "children"), "Querying...", "Submit"),
     ],
 )
-def ask_for_chat(n_clicks, question, children, if_enable_load_from_url, url):
+def ask_for_chat(n_clicks, question, children, if_enable_load_from_url, url, model):
     if not children:
         children = []
     if question:
@@ -123,7 +130,7 @@ def ask_for_chat(n_clicks, question, children, if_enable_load_from_url, url):
                 webpage_content = get_webpage_content(url)
                 question = concat_webpage_content_and_question(webpage_content, question)
             print(f"开始问问题...")
-            (answer, usage) = chatGPT.ask(question)
+            (answer, usage) = chatGPT.ask(question, model)
             children.append(html.Div(dcc.Markdown(question), className="chat-record user-bubble"))
             children.append(html.Div(dcc.Markdown(answer), className="chat-record assistant-bubble"))
             print(f"答案回来了，开销：{usage}")
